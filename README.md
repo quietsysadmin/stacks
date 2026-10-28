@@ -18,3 +18,7 @@ episodes/NN-slug/      one folder per video: a README with the steps, plus every
 | 01 | A production-ready Docker host from scratch | coming 2026-11-10 |
 
 Made by Vasileios Ntoufoudis, maintainer of [Laravel Chronicle](https://github.com/laravel-chronicle/core). Newsletter: https://quietsysadmin.ntoufoudis.com
+
+## License
+
+[MIT](LICENSE). Use the commands and configs in your own setups, commercial ones included.
