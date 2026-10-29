@@ -109,7 +109,7 @@ Docker writes its own firewall rules for published ports, and they're checked be
 ```bash
 docker run -d --name trap -p 8080:80 nginx:alpine
 # from your laptop:
-nmap -Pn -p 8080 203.0.113.10        # 8080/tcp open, although ufw doesn't allow it
+nmap -Pn -p 8080,8081 203.0.113.10   # 8080 open (Docker), 8081 filtered (ufw)
 docker rm -f trap
 ```
 
