@@ -63,11 +63,14 @@ fi
 if [[ -z $host ]]; then
   warn "HTTPS: skipped, pass a hostname: sudo $0 whoami.example.com"
 else
-  code=$(curl -sS --max-time 15 -o /dev/null -w '%{http_code}' "https://$host" 2>&1)
-  if [[ $code == 200 ]]; then
+  code=$(curl -s --max-time 15 -o /dev/null -w '%{http_code}' "https://$host")
+  rc=$?
+  if [[ $rc -eq 0 && $code == 200 ]]; then
     pass "HTTPS: https://$host answers with a valid certificate"
+  elif [[ $rc -eq 60 ]]; then
+    fail "HTTPS: https://$host has a certificate curl doesn't trust (still on Let's Encrypt staging?)"
   else
-    fail "HTTPS: https://$host: $code"
+    fail "HTTPS: https://$host answered $code (curl exit code $rc)"
   fi
 fi
 
