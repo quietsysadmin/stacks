@@ -132,9 +132,10 @@ sudo apt install -y git
 git clone https://github.com/quietsysadmin/stacks.git ~/stacks
 
 sudo install -d -o ops -g ops /srv/traefik
-cp ~/stacks/base/traefik/compose.yaml ~/stacks/base/traefik/.env.example /srv/traefik/
+cp ~/stacks/base/traefik/compose.yaml ~/stacks/base/traefik/.env.example \
+  /srv/traefik/
 cd /srv/traefik
-cp .env.example .env && $EDITOR .env    # ACME_EMAIL and DOMAIN
+cp .env.example .env && nano .env    # ACME_EMAIL and DOMAIN
 docker network create proxy
 docker compose up -d
 docker compose logs -f traefik
