@@ -1,0 +1,3 @@
+# Secrets and private keys never go in git.
+.env
+letsencrypt/

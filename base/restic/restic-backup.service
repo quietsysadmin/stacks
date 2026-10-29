@@ -1,0 +1,17 @@
+[Unit]
+Description=restic backup of /etc and /srv
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=oneshot
+EnvironmentFile=/etc/restic.env
+Environment=RESTIC_CACHE_DIR=/var/cache/restic
+CacheDirectory=restic
+Nice=10
+IOSchedulingClass=idle
+# /etc: the server's configuration. /srv: apps and their data.
+# Databases need a consistent dump first; that's per stack, not part of the base.
+ExecStart=/usr/bin/restic backup --exclude-caches --exclude /srv/**/cache /etc /srv
+# Runs only if the backup succeeded.
+ExecStart=/usr/bin/restic forget --keep-daily 7 --keep-weekly 4 --keep-monthly 6 --prune
