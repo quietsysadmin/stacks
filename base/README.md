@@ -36,7 +36,8 @@ As root, on the fresh server. Your provider put your key in root's `authorized_k
 adduser ops
 usermod -aG sudo ops
 install -d -m 700 -o ops -g ops /home/ops/.ssh
-install -m 600 -o ops -g ops /root/.ssh/authorized_keys /home/ops/.ssh/authorized_keys
+install -m 600 -o ops -g ops /root/.ssh/authorized_keys \
+  /home/ops/.ssh/authorized_keys
 
 cat > /etc/ssh/sshd_config.d/10-hardening.conf <<'EOF'
 PermitRootLogin no
@@ -88,12 +89,19 @@ It doesn't reboot by default. New kernels wait for a reboot: see check 6.
 
 ```bash
 sudo install -m 0755 -d /etc/apt/keyrings
-sudo curl -fsSL https://download.docker.com/linux/debian/gpg -o /etc/apt/keyrings/docker.asc
-echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] \
-  https://download.docker.com/linux/debian $(. /etc/os-release && echo "$VERSION_CODENAME") stable" \
-  | sudo tee /etc/apt/sources.list.d/docker.list
+sudo curl -fsSL https://download.docker.com/linux/debian/gpg \
+  -o /etc/apt/keyrings/docker.asc
+sudo tee /etc/apt/sources.list.d/docker.sources <<EOF
+Types: deb
+URIs: https://download.docker.com/linux/debian
+Suites: $(. /etc/os-release && echo "$VERSION_CODENAME")
+Components: stable
+Architectures: $(dpkg --print-architecture)
+Signed-By: /etc/apt/keyrings/docker.asc
+EOF
 sudo apt update
-sudo apt install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+sudo apt install -y docker-ce docker-ce-cli containerd.io \
+  docker-buildx-plugin docker-compose-plugin
 sudo usermod -aG docker ops     # log out and back in
 docker version
 ```
