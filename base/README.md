@@ -185,7 +185,8 @@ It backs up `/etc` (configuration) and `/srv` (apps and their data) every night 
 A backup you haven't restored isn't a backup.
 
 ```bash
-sudo bash -c 'set -a; . /etc/restic.env; restic restore latest --target /tmp/restore-test --include /srv/traefik'
+sudo bash -c 'set -a; . /etc/restic.env; \
+  restic restore latest --target /tmp/restore-test --include /srv/traefik'
 sudo diff -r /srv/traefik /tmp/restore-test/srv/traefik && echo "restore matches"
 sudo rm -rf /tmp/restore-test
 ```
