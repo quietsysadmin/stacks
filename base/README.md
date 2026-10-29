@@ -170,7 +170,8 @@ The key on this server can delete backups too. Whoever takes over the server can
 Nightly, on a timer:
 
 ```bash
-sudo cp ~/stacks/base/restic/restic-backup.service ~/stacks/base/restic/restic-backup.timer /etc/systemd/system/
+sudo cp ~/stacks/base/restic/restic-backup.service \
+  ~/stacks/base/restic/restic-backup.timer /etc/systemd/system/
 sudo systemctl daemon-reload
 sudo systemctl enable --now restic-backup.timer
 sudo systemctl start restic-backup.service      # first backup now, not tonight
