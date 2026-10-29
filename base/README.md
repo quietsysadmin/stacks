@@ -1,6 +1,6 @@
 # base: a production-ready Docker host from scratch
 
-The foundation from episode 1. Every later episode starts from a server built like this.
+The foundation from episode 1. Most later episodes build on a server set up like this.
 
 What you get:
 
