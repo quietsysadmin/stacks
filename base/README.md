@@ -158,7 +158,7 @@ Storage: any S3-compatible bucket that isn't on this server. Create a key that w
 sudo apt install -y restic
 sudo install -m 600 ~/stacks/base/restic/restic.env.example /etc/restic.env
 sudoedit /etc/restic.env
-sudo sh -c 'head -c 32 /dev/urandom | base64 > /etc/restic.password && chmod 600 /etc/restic.password'
+sudo sh -c 'umask 077; head -c 32 /dev/urandom | base64 > /etc/restic.password'
 sudo ls -l /etc/restic.env /etc/restic.password   # -rw------- root root, both
 sudo bash -c 'set -a; . /etc/restic.env; restic init'
 ```
