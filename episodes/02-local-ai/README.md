@@ -113,15 +113,19 @@ docker compose exec ollama ollama ps               # PROCESSOR: 100% GPU
 
 `100% GPU` is the line you want. A split like `18%/82% CPU/GPU` means it didn't fit: it still works, just slower, and the more is on the CPU, the slower it gets. A longer context needs more memory too, so check `ollama ps` again after raising `OLLAMA_CONTEXT_LENGTH` in `.env`.
 
-Measured on the 6 GB RTX 4050 Laptop GPU (Ollama 0.40.14, context 4096, one run each; speeds vary between runs):
+Measured on the 6 GB RTX 4050 Laptop GPU (Ollama 0.40.14, context 4096; speeds vary between runs):
 
 | Model | Download | `ollama ps` | Speed |
 |---|---|---|---|
 | qwen3:4b | 2.5 GB | 3.2 GB, 100% GPU | ~64 tokens/s |
+| qwen2.5:7b | 4.7 GB | 4.8 GB, 100% GPU | ~41 tokens/s |
+| mistral:7b | 4.4 GB | 5.1 GB, 5%/95% CPU/GPU | ~21 tokens/s |
 | qwen3:8b | 5.2 GB | 6.0 GB, 18%/82% CPU/GPU | ~14-26 tokens/s |
 | qwen3:14b | 9.3 GB | 10 GB, 53%/47% CPU/GPU | ~2 tokens/s |
 
-On 6 GB, an 8B model at 4-bit is just over the edge (even at 2048 context, 14% stays on the CPU). Stay at about 4.5 GB of download or less, and check `ollama ps` once for each new model. An 8 GB card has room for it: it needs about 6 GB here.
+On 6 GB, `qwen2.5:7b` is the biggest that fits: 100% GPU at the default context. `mistral:7b` has a smaller download and still doesn't fit, so the download size is only a hint: check `ollama ps` once for each new model.
+
+Context counts too, and a small spill costs a lot. The same `qwen2.5:7b` at `OLLAMA_CONTEXT_LENGTH=8192` needs 5.4 GB and puts 9% on the CPU: ~15 tokens/s instead of ~41. On 6 GB, keep the default 4096. An 8 GB card has room for an 8B model or a longer context.
 
 ## 6. The first account
 
