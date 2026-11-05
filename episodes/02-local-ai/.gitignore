@@ -1,0 +1,2 @@
+# Secrets never go in git.
+.env

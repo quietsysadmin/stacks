@@ -1,0 +1,64 @@
+# Local AI, private: Ollama + Open WebUI on one machine with an NVIDIA GPU.
+# Nothing listens on the network: Ollama publishes no ports, Open WebUI only 127.0.0.1:3000.
+# Once the models are pulled, nothing here needs the internet.
+#
+#   cp .env.example .env    # then set WEBUI_SECRET_KEY (README, step 3)
+#   docker compose up -d
+#   ./checks/verify-ai.sh
+
+name: local-ai                      # fixed, so the volumes are always local-ai_models and local-ai_webui
+
+services:
+  ollama:
+    image: ollama/ollama:0.40.14@sha256:ebaef4f4c5d93660e1f25f8ad085a112f51ccfb0e8458073e71793959dba91c9
+    gpus: all                       # NVIDIA Container Toolkit on the host (README, step 1)
+    environment:
+      OLLAMA_NO_CLOUD: "1"          # local only: no cloud models, no web search
+      OLLAMA_CONTEXT_LENGTH: ${OLLAMA_CONTEXT_LENGTH:-4096}
+    volumes:
+      - models:/root/.ollama
+    # No ports section, on purpose. Open WebUI reaches Ollama over the "ai" network.
+    # It can still reach out to pull models; nothing can reach in.
+    security_opt:
+      - no-new-privileges:true
+    networks: [ai]
+    restart: unless-stopped
+
+  open-webui:
+    image: ghcr.io/open-webui/open-webui:v0.13.0@sha256:2272b0fb7c8783a016bcc179abb467cfa34590c99c5e6560fe0e9155b4820a09
+    depends_on: [ollama]
+    ports:
+      - "127.0.0.1:3000:8080"       # localhost only: a browser on this machine, nothing else
+    environment:
+      OLLAMA_BASE_URL: http://ollama:11434
+      WEBUI_SECRET_KEY: ${WEBUI_SECRET_KEY:?set WEBUI_SECRET_KEY in .env}
+      # The first account still becomes the admin; nobody can sign up after it.
+      ENABLE_SIGNUP: "false"
+      # Settings come from this file on every start, not from the admin panel.
+      ENABLE_PERSISTENT_CONFIG: "false"
+      # No cloud model providers, no web search, no sharing.
+      ENABLE_OPENAI_API: "false"
+      ENABLE_DIRECT_CONNECTIONS: "false"
+      ENABLE_WEB_SEARCH: "false"
+      ENABLE_COMMUNITY_SHARING: "false"
+      # No update checks or model downloads from Hugging Face.
+      OFFLINE_MODE: "true"
+      # No telemetry. The image already ships these values; set here so it's on the record.
+      ANONYMIZED_TELEMETRY: "false"
+      DO_NOT_TRACK: "true"
+      SCARF_NO_ANALYTICS: "true"
+    volumes:
+      # A named volume, not a folder: on first start Docker copies the image's built-in
+      # models into it, so documents and speech work offline.
+      - webui:/app/backend/data
+    security_opt:
+      - no-new-privileges:true
+    networks: [ai]
+    restart: unless-stopped
+
+volumes:
+  models:     # downloaded models; you can always pull them again
+  webui:      # accounts, chats, settings: back this one up (README, step 7)
+
+networks:
+  ai:
