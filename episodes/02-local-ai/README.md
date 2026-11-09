@@ -54,7 +54,7 @@ nvidia-smi --query-gpu=name,memory.total --format=csv
 nvidia-ctk --version
 docker info | grep -i runtimes                     # lists nvidia
 docker run --rm --gpus all \
-  nvidia/cuda:12.9.1-base-ubuntu24.04 nvidia-smi    # the same card, from a container
+  nvidia/cuda:13.4.3-base-ubuntu24.04 nvidia-smi    # the same card, from a container
 ```
 
 If the last command fails, stop here. Without it Ollama quietly runs on the CPU, and everything is slow.
