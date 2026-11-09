@@ -58,7 +58,7 @@ services:
 
 volumes:
   models:     # downloaded models; you can always pull them again
-  webui:      # accounts, chats, settings: back this one up (README, step 7)
+  webui:      # accounts, chats, settings: back this one up (README, step 8)
 
 networks:
   ai:
