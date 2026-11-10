@@ -18,7 +18,7 @@ episodes/NN-slug/      one folder per video: a README with the steps, plus every
 | 01 | A production-ready Docker host from scratch | coming 2026-11-10 |
 | 02 | Run local AI privately: Ollama + Open WebUI, hardened | coming 2026-11-17 |
 
-Made by Vasileios Ntoufoudis, maintainer of [Laravel Chronicle](https://github.com/laravel-chronicle/core). Newsletter: https://quietsysadmin.ntoufoudis.com
+Made by Vasileios Ntoufoudis, maintainer of [Laravel Chronicle](https://github.com/laravel-chronicle/core). Newsletter: https://quietsysadmin.com
 
 ## License
 
