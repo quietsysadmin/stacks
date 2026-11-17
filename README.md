@@ -16,7 +16,7 @@ episodes/NN-slug/      one folder per video: a README with the steps, plus every
 | # | Video | Folder |
 |---|---|---|
 | 01 | [A production-ready Docker host from scratch](https://www.youtube.com/watch?v=DIXj4kf2WK0) | [`episodes/01-production-docker-host`](episodes/01-production-docker-host/) |
-| 02 | Run local AI privately: Ollama + Open WebUI, hardened (2026-11-17) | [`episodes/02-local-ai`](episodes/02-local-ai/) |
+| 02 | [Run local AI privately: Ollama + Open WebUI, hardened](https://www.youtube.com/watch?v=UVTyFuveb9Y) | [`episodes/02-local-ai`](episodes/02-local-ai/) |
 
 Made by Vasileios Ntoufoudis, maintainer of [Laravel Chronicle](https://github.com/laravel-chronicle/core). Newsletter: https://quietsysadmin.com
 

@@ -1,6 +1,6 @@
 # EP 02: Run local AI privately: Ollama + Open WebUI, hardened
 
-Video: coming 2026-11-17.
+Video: https://www.youtube.com/watch?v=UVTyFuveb9Y
 
 Ollama runs the models on your GPU. Open WebUI is the chat in your browser. Both in Docker, on one machine.
 
